@@ -1,0 +1,68 @@
+version: '3'
+
+services:
+
+  db1:
+
+    image: mysql:latest
+    restart: always
+    envirement:
+      - MYSQL_ROOT_PASSWORD: 3210528a
+      - MYSQL_DATABASE: my_database1
+    volumes:
+      - db1_data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - my_network
+
+
+  db2:
+
+    image: mysql:latest
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD: 3210528a
+      - MYSQL_DATABASE: my_database2
+    volumes:
+      - db2_data:/var/lib/mysql
+    networks:
+      - my_network
+
+  nginx:
+
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+      
+    restart: always
+    ports: 
+      - "3000:3000"
+    networks:
+      - my_network
+    depends_on:
+      - nodejs
+
+  nodejs:
+
+    build:
+      context: node-app
+      dockerfile: Dockerfile
+
+    restart: always
+    environment:
+      - DB_HOST = db1
+    networks:
+      - my_network
+    
+  networks:
+    my_network:
+
+  volumes:
+    - db2_data
+    - db1_data
+
+
+
+
+    
