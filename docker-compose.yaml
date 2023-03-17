@@ -6,13 +6,13 @@ services:
 
     image: mysql:latest
     restart: always
-    envirement:
-      - MYSQL_ROOT_PASSWORD: 3210528a
-      - MYSQL_DATABASE: my_database1
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: database
     volumes:
       - db1_data:/var/lib/mysql
     ports:
-      - 3305:3306
+      - "3305:3306"
     networks:
       - my_network
 
@@ -22,12 +22,12 @@ services:
     image: mysql:latest
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD: 3210528a
-      - MYSQL_DATABASE: my_database2
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: basedata
     volumes:
       - db2_data:/var/lib/mysql
     ports:
-      - 3306:3306
+      - "3306:3306"
     networks:
       - my_network
 
@@ -53,18 +53,13 @@ services:
 
     restart: always
     environment:
-      - DB_HOST = basedata
+      DB_HOST: basedata
     networks:
       - my_network
     
-  networks:
-    my_network:
+networks:
+  my_network:
 
-  volumes:
-    - db2_data
-    - db1_data
-
-
-
-
-    
+volumes:
+  db2_data:
+  db1_data:
