@@ -2,7 +2,7 @@ version: '3'
 
 services:
 
-  db1:
+  database:
 
     image: mysql:latest
     restart: always
@@ -12,12 +12,12 @@ services:
     volumes:
       - db1_data:/var/lib/mysql
     ports:
-      - 3306:3306
+      - 3305:3306
     networks:
       - my_network
 
 
-  db2:
+  basedata:
 
     image: mysql:latest
     restart: always
@@ -26,6 +26,8 @@ services:
       - MYSQL_DATABASE: my_database2
     volumes:
       - db2_data:/var/lib/mysql
+    ports:
+      - 3306:3306
     networks:
       - my_network
 
@@ -37,7 +39,7 @@ services:
       
     restart: always
     ports: 
-      - "3000:3000"
+      - "8080:80"
     networks:
       - my_network
     depends_on:
@@ -51,7 +53,7 @@ services:
 
     restart: always
     environment:
-      - DB_HOST = db1
+      - DB_HOST = basedata
     networks:
       - my_network
     

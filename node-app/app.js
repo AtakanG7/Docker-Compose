@@ -1,11 +1,12 @@
 const mysql = require('mysql');
 
+
 // Create a connection to the MySQL container
 const connection = mysql.createConnection({
-  host: 'mysql_container',
+  host: 'basedata',
   user: 'root',
-  password: 'password',
-  database: 'my_database'
+  password: '3120528a',
+  database: 'basedata'
 });
 
 // Connect to the MySQL container
@@ -36,4 +37,19 @@ connection.end(function(err) {
   }
 
   console.log('Disconnected from MySQL container');
+
 });
+
+const express = require('express');
+const app = express();
+
+// Define a route handler for the default home page
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
+
+// Start the server listening on port 3000
+app.listen(3000, () => {
+    console.log('Server listening on port 3000');
+});
+
